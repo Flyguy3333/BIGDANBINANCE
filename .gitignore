@@ -1,0 +1,21 @@
+# Python
+*.pyc
+__pycache__/
+
+# Environments
+venv/
+myenv/
+myenv311/
+
+# Logs
+logs/
+*.log
+
+# Backups and large files
+*.sql
+*.tar.gz
+*.zip
+
+# Temporary files
+.DS_Store
+*.swp

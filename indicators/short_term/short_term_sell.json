@@ -1,0 +1,884 @@
+[
+    {
+        "name": "Relative Strength Index (RSI)",
+        "formula": "RSI = 100 - (100 / (1 + RS)), RS = Avg Gain / Avg Loss",
+        "sell_signal": "RSI > 70 (overbought)",
+        "adjustments": "5-period lookback",
+        "notes": "Short lookback makes RSI more sensitive to recent price action."
+    },
+    {
+        "name": "Bollinger Bands",
+        "formula": "Upper = SMA + K*σ; Lower = SMA - K*σ",
+        "sell_signal": "Price touches or moves above the upper band",
+        "adjustments": "5-period SMA, K=1.5",
+        "notes": "Shorter period and lower K factor react quickly to volatility changes."
+    },
+    {
+        "name": "Stochastic Oscillator",
+        "formula": "%K=((Close - LL)/(HH - LL))*100; %D=SMA(%K)",
+        "sell_signal": "%K crosses below %D above 80",
+        "adjustments": "7-period lookback",
+        "notes": "A shorter lookback increases responsiveness to immediate momentum changes."
+    },
+    {
+        "name": "MACD Histogram",
+        "formula": "MACD = EMA_fast - EMA_slow; Hist = MACD - Signal",
+        "sell_signal": "Histogram crosses below 0",
+        "adjustments": "(6,13,5) EMAs",
+        "notes": "Shortened EMAs detect quick trend shifts."
+    },
+    {
+        "name": "Parabolic SAR",
+        "formula": "SAR_next = SAR_prev + AF*(EP - SAR_prev)",
+        "sell_signal": "Close < SAR",
+        "adjustments": "AF=0.03",
+        "notes": "A higher AF accelerates the SAR toward price, catching early reversals."
+    },
+    {
+        "name": "Williams %R",
+        "formula": "%R=((HH - Close)/(HH - LL))*(-100)",
+        "sell_signal": "%R < -20",
+        "adjustments": "7-period lookback",
+        "notes": "Short-term periods highlight micro-cycle extremes."
+    },
+    {
+        "name": "Chaikin Money Flow (CMF)",
+        "formula": "CMF = (Σ(ADL*Vol))/Σ(Vol), ADL=((Close - Low)-(High - Close))/(High - Low)",
+        "sell_signal": "CMF < 0",
+        "adjustments": "5-period lookback",
+        "notes": "Short-term lookback quickly shows shifts in buy/sell pressure."
+    },
+    {
+        "name": "Volume Weighted Average Price (VWAP)",
+        "formula": "VWAP=(Σ(Price*Volume))/Σ(Volume)",
+        "sell_signal": "Price < VWAP",
+        "adjustments": "Reset intraday",
+        "notes": "Comparing price to VWAP helps identify if sellers are gaining strength."
+    },
+    {
+        "name": "Momentum Indicator",
+        "formula": "Momentum=Price - Price_n",
+        "sell_signal": "Momentum < 0",
+        "adjustments": "5-period lookback",
+        "notes": "Short lookbacks highlight immediate momentum shifts."
+    },
+    {
+        "name": "SuperTrend",
+        "formula": "SuperTrend = Median Price ± Mult*ATR",
+        "sell_signal": "Close < SuperTrend line",
+        "adjustments": "Multiplier=1.5; ATR=5",
+        "notes": "Narrow ATR and smaller multiplier create quicker signals."
+    },
+    {
+        "name": "5-Period EMA",
+        "formula": "EMA=(Price-EMA_prev)*(2/(n+1))+EMA_prev",
+        "sell_signal": "Price crosses below 5-Period EMA",
+        "adjustments": "Use 5-period EMA",
+        "notes": "A short EMA reacts rapidly to new price action."
+    },
+    {
+        "name": "Ichimoku Cloud (Short-Term)",
+        "formula": "Shorter Tenkan/Kijun/Senkou spans",
+        "sell_signal": "Price < Cloud",
+        "adjustments": "(5,13,26)",
+        "notes": "Shorter parameters make Ichimoku more sensitive."
+    },
+    {
+        "name": "Directional Movement Index (DMI) + ADX",
+        "formula": "DI+ & DI- from directional moves/ATR; ADX measures strength",
+        "sell_signal": "DI- > DI+",
+        "adjustments": "7-period ATR",
+        "notes": "Shortened periods catch directional trends quicker."
+    },
+    {
+        "name": "Chande Momentum Oscillator (CMO)",
+        "formula": "CMO=((Sum(Gains)-Sum(Losses))/(Sum(Gains)+Sum(Losses)))*100",
+        "sell_signal": "CMO < 0",
+        "adjustments": "5-period lookback",
+        "notes": "Quickly responds to small shifts in price direction."
+    },
+    {
+        "name": "Fisher Transform",
+        "formula": "FT=0.5*ln((1+x)/(1-x))",
+        "sell_signal": "FT < 0",
+        "adjustments": "Normalize over 5 periods",
+        "notes": "A short normalization period gives faster signals."
+    },
+    {
+        "name": "ATR (Average True Range)",
+        "formula": "ATR=MA(True Range)",
+        "sell_signal": "From a low ATR to higher ATR + price downtick",
+        "adjustments": "5-period ATR",
+        "notes": "Rising ATR plus price drop may indicate bearishness."
+    },
+    {
+        "name": "Commodity Channel Index (CCI)",
+        "formula": "CCI=(TP - SMA(TP)) / (0.015*MeanDev), TP=(H+L+C)/3",
+        "sell_signal": "CCI < -100",
+        "adjustments": "5-period SMA",
+        "notes": "Short-term CCI responds quickly to small price shifts."
+    },
+    {
+        "name": "Keltner Channels",
+        "formula": "Center=EMA; Bands=Center ± Mult*ATR",
+        "sell_signal": "Price touches or moves slightly above upper channel then reverses down",
+        "adjustments": "10-EMA, ATR(5), Mult=1.5",
+        "notes": "Tight channels for swift volatility signals."
+    },
+    {
+        "name": "On-Balance Volume (OBV)",
+        "formula": "OBV=PrevOBV ± Volume",
+        "sell_signal": "Falling OBV with stable price",
+        "adjustments": "5-period smoothing",
+        "notes": "Short smoothing highlights short-term volume shifts."
+    },
+    {
+        "name": "Rate of Change (ROC)",
+        "formula": "ROC=((Price - Price_n)/Price_n)*100",
+        "sell_signal": "ROC turning negative from positive",
+        "adjustments": "5-period lookback",
+        "notes": "Emphasizes very recent momentum shifts."
+    },
+    {
+        "name": "Pivot Points",
+        "formula": "Pivot=(H+L+C)/3; R1,R2,S1,S2 from Pivot",
+        "sell_signal": "Price breaks below S1",
+        "adjustments": "Daily pivots",
+        "notes": "Short-term traders watch pivot breakdowns."
+    },
+    {
+        "name": "Elder’s Force Index (EFI)",
+        "formula": "EFI=(Close - Close_prev)*Volume",
+        "sell_signal": "EFI < 0 after a rally",
+        "adjustments": "2-period EMA of EFI",
+        "notes": "Short EMA smoothing reveals immediate shifts in force."
+    },
+    {
+        "name": "Donchian Channels",
+        "formula": "Upper=Max(H,n); Lower=Min(L,n)",
+        "sell_signal": "Price breaks below lower channel",
+        "adjustments": "10-period highs/lows",
+        "notes": "Short period highlights recent breakout points."
+    },
+    {
+        "name": "Price Oscillator (PPO)",
+        "formula": "PPO=((EMA_fast-EMA_slow)/EMA_slow)*100",
+        "sell_signal": "PPO < 0",
+        "adjustments": "(5,10) EMA",
+        "notes": "Short EMAs make PPO sensitive to recent price movements."
+    },
+    {
+        "name": "Zig Zag Indicator",
+        "formula": "Filters moves < threshold%",
+        "sell_signal": "Identification of a recent peak followed by downward price action",
+        "adjustments": "3% threshold",
+        "notes": "Highlights short swing points."
+    },
+    {
+        "name": "TRIX",
+        "formula": "TRIX=((EMA3 - EMA3_prev)/EMA3_prev)*100",
+        "sell_signal": "TRIX < 0",
+        "adjustments": "5-period triple EMA",
+        "notes": "Short TRIX reacts faster to minor trend shifts."
+    },
+    {
+        "name": "Chaikin Volatility",
+        "formula": "CV=(EMA(H-L)-EMA_prev(H-L))/EMA_prev(H-L)*100",
+        "sell_signal": "Decreasing CV then price fall",
+        "adjustments": "5-period EMA",
+        "notes": "Captures sudden volatility contractions."
+    },
+    {
+        "name": "Williams Alligator (Short-Term)",
+        "formula": "Alligator=3 SMAs (Jaw,Teeth,Lips)",
+        "sell_signal": "Lips cross below Teeth and Jaw",
+        "adjustments": "(5,8,13)",
+        "notes": "Mouth closing downward signals bearish momentum."
+    },
+    {
+        "name": "Detrended Price Oscillator (DPO)",
+        "formula": "DPO=Price - SMA(Price,n)",
+        "sell_signal": "DPO < 0",
+        "adjustments": "5-period SMA",
+        "notes": "Removes short-term trend, highlighting small cyclical downswings."
+    },
+    {
+        "name": "True Strength Index (TSI)",
+        "formula": "TSI=(EMA(EMA(ΔPrice))/EMA(EMA(|ΔPrice|)))*100",
+        "sell_signal": "TSI < 0",
+        "adjustments": "Short EMA periods (e.g.5)",
+        "notes": "Quick EMA settings respond immediately to new price data."
+    },
+    {
+        "name": "Adaptive Moving Average (AMA)",
+        "formula": "AMA=PrevAMA+SC*(Price-PrevAMA), SC from volatility",
+        "sell_signal": "Price < AMA",
+        "adjustments": "Fast SC settings",
+        "notes": "Price crossing below AMA suggests a quick shift to bearishness."
+    },
+    {
+        "name": "Fractal Indicator",
+        "formula": "Fractal = pattern of a peak among 5 bars",
+        "sell_signal": "Break below a recent bearish fractal",
+        "adjustments": "3-bar fractals",
+        "notes": "Short fractals spot quick tops."
+    },
+    {
+        "name": "Volume Oscillator (VO)",
+        "formula": "VO=(SMA_fastVol - SMA_slowVol)/SMA_slowVol",
+        "sell_signal": "VO < 0",
+        "adjustments": "(5,10) periods",
+        "notes": "Volume trend weakening to downside."
+    },
+    {
+        "name": "Price Rate of Change (PROC)",
+        "formula": "PROC=((Price - Price_n)/Price_n)*100",
+        "sell_signal": "PROC < 0",
+        "adjustments": "5-period lookback",
+        "notes": "Similar to ROC, short-term sensitive."
+    },
+    {
+        "name": "Percentage Volume Oscillator (PVO)",
+        "formula": "PVO=((EMA_fastVol - EMA_slowVol)/EMA_slowVol)*100",
+        "sell_signal": "PVO < 0",
+        "adjustments": "(5,10) volume EMAs",
+        "notes": "Volume-based momentum turning negative."
+    },
+    {
+        "name": "Kaufman’s Adaptive Moving Average (KAMA)",
+        "formula": "KAMA adapts based on Efficiency Ratio",
+        "sell_signal": "Price < KAMA",
+        "adjustments": "Shorter periods for quick adaptation",
+        "notes": "Adapts quickly to price volatility."
+    },
+    {
+        "name": "Heikin-Ashi Candlesticks",
+        "formula": "HA_Close=(O+H+L+C)/4; HA_Open=(PrevHA_Open+PrevHA_Close)/2",
+        "sell_signal": "Series of red (bearish) HA candles",
+        "adjustments": "5-period aggregation",
+        "notes": "Smooths noise for clearer short-term trends."
+    },
+    {
+        "name": "Qstick Indicator",
+        "formula": "Qstick=SMA(Close-Open,n)",
+        "sell_signal": "Qstick < 0",
+        "adjustments": "5-period SMA",
+        "notes": "More opens above closes: bearish pressure."
+    },
+    {
+        "name": "Coppock Curve",
+        "formula": "WMA of ROC",
+        "sell_signal": "Coppock turns negative",
+        "adjustments": "(5,10) ROC shorter",
+        "notes": "Short Coppock detects early downturns."
+    },
+    {
+        "name": "Ulcer Index (UI)",
+        "formula": "UI=sqrt(AvgDrawdown²)",
+        "sell_signal": "UI decreases + price downtick",
+        "adjustments": "Short period",
+        "notes": "Lower UI plus price dip may signal a top forming."
+    },
+    {
+        "name": "Gator Oscillator",
+        "formula": "Gator=Difference between Alligator lines",
+        "sell_signal": "Gator bars turn negative",
+        "adjustments": "Shorten Alligator MAs",
+        "notes": "Red bars indicate trend forming downward."
+    },
+    {
+        "name": "Accelerator Oscillator (AC)",
+        "formula": "AC=AO - SMA(AO)",
+        "sell_signal": "AC < 0",
+        "adjustments": "Use 5-period AO",
+        "notes": "Acceleration turns negative early."
+    },
+    {
+        "name": "Median Price",
+        "formula": "(High+Low)/2",
+        "sell_signal": "Price < Median",
+        "adjustments": "Intraday calculation",
+        "notes": "Price below median suggests downward bias."
+    },
+    {
+        "name": "High-Low Index",
+        "formula": "(#NewHighs/(#NewHighs+#NewLows))*100",
+        "sell_signal": "Index < 30",
+        "adjustments": "5-period count",
+        "notes": "More new lows than highs = bearish breadth."
+    },
+    {
+        "name": "Vortex Indicator (VI)",
+        "formula": "VI+ and VI- from price moves; VI+>VI- bullish",
+        "sell_signal": "VI- > VI+",
+        "adjustments": "7-period",
+        "notes": "Negative vortex dominance indicates downward trend."
+    },
+    {
+        "name": "Relative Momentum Index (RMI)",
+        "formula": "RMI=RSI on momentum(Price-Price_n)",
+        "sell_signal": "RMI < 50",
+        "adjustments": "5-period lookback",
+        "notes": "Momentum-based RSI variant turning bearish."
+    },
+    {
+        "name": "Adaptive Stochastic Oscillator",
+        "formula": "Stochastic with adaptive period",
+        "sell_signal": "%K crosses below %D above 80",
+        "adjustments": "Faster recalculations",
+        "notes": "Adapts to market for quick overbought signals."
+    },
+    {
+        "name": "Bollinger Band %B",
+        "formula": "%B=(Price-LowerBand)/(UpperBand-LowerBand)",
+        "sell_signal": "%B<0.2",
+        "adjustments": "5-period Bollinger Bands",
+        "notes": "Position near upper band reversed for downside."
+    },
+    {
+        "name": "Commodity Selection Index (CSI)",
+        "formula": "Combines volatility, momentum",
+        "sell_signal": "CSI decreasing",
+        "adjustments": "Short intervals",
+        "notes": "Asset becoming less tradeable or turning bearish."
+    },
+    {
+        "name": "Price Action Channels",
+        "formula": "Channels derived from price extremes + RSI filters",
+        "sell_signal": "Price crosses below mid-channel",
+        "adjustments": "Shorter MA, RSI periods",
+        "notes": "Crossing below mid-channel suggests downside breakout."
+    },
+    {
+        "name": "Klinger Oscillator",
+        "formula": "KO=EMA_fast(VolumeFlow)-EMA_slow(VolumeFlow)",
+        "sell_signal": "KO<0",
+        "adjustments": "(8,13) EMA",
+        "notes": "Volume flow turning negative."
+    },
+    {
+        "name": "Average Directional Index (Short-Term ADX)",
+        "formula": "ADX=100*EMA(|DI+-DI-|/(DI++DI-))",
+        "sell_signal": "ADX rising as DI- > DI+",
+        "adjustments": "7-period DI",
+        "notes": "Faster ADX signals emerging downtrend strength."
+    },
+    {
+        "name": "Ichimoku Baseline (Kijun-sen)",
+        "formula": "(H+L)/2 over n",
+        "sell_signal": "Price < Baseline",
+        "adjustments": "10-period baseline",
+        "notes": "Crossing below baseline shows trend weakening."
+    },
+    {
+        "name": "Choppiness Index (CHOP)",
+        "formula": "CHOP=100*log10((ATR_sum)/(H-L))/log10(n)",
+        "sell_signal": "CHOP decreasing + price down",
+        "adjustments": "5-period ATR",
+        "notes": "Less choppy with downward price suggests downtrend forming."
+    },
+    {
+        "name": "Schaff Trend Cycle (STC)",
+        "formula": "STC based on MACD & Stoch",
+        "sell_signal": "STC < 25",
+        "adjustments": "Faster MACD",
+        "notes": "Low STC suggests strong bearish cycle."
+    },
+    {
+        "name": "Smoothed RSI",
+        "formula": "SmoothedRSI=EMA(RSI)",
+        "sell_signal": "Smoothed RSI < 50",
+        "adjustments": "5-period RSI & EMA",
+        "notes": "Reduces noise in RSI signals, turning negative."
+    },
+    {
+        "name": "Smoothed Rate of Change",
+        "formula": "Smoothed ROC=EMA(ROC)",
+        "sell_signal": "Smoothed ROC < 0",
+        "adjustments": "3-period EMA on ROC",
+        "notes": "Reduced volatility noise confirms downward motion."
+    },
+    {
+        "name": "ATR Bands",
+        "formula": "MA ± Mult*ATR",
+        "sell_signal": "Price crosses below upper band",
+        "adjustments": "Mult=1.5, ATR=5",
+        "notes": "ATR-based volatility bands catching early downward breakouts."
+    },
+    {
+        "name": "Price Channel",
+        "formula": "Upper=HighestHigh(n); Lower=LowestLow(n)",
+        "sell_signal": "Price breaks below lower channel",
+        "adjustments": "10-period",
+        "notes": "Short channel breakout to the downside."
+    },
+    {
+        "name": "Ichimoku Lagging Span (Chikou)",
+        "formula": "Chikou=Price shifted back n",
+        "sell_signal": "Lagging Span < Price",
+        "adjustments": "10-period shift",
+        "notes": "Confirms downtrend from a lagging perspective."
+    },
+    {
+        "name": "Elder Impulse System",
+        "formula": "Combines MACD & EMA direction",
+        "sell_signal": "Red bar (EMA falling, MACD<0)",
+        "adjustments": "(5,10) EMA",
+        "notes": "Tracks momentum and trend, quick red bars bearish."
+    },
+    {
+        "name": "Fisher Stochastic",
+        "formula": "Fisher Transform applied to Stoch",
+        "sell_signal": "Fisher < 0",
+        "adjustments": "5-period",
+        "notes": "Fisher < 0 suggests bearish turn."
+    },
+    {
+        "name": "Hilbert Transform",
+        "formula": "Hilbert Transform of price for instantaneous trend",
+        "sell_signal": "Trendline turning downward",
+        "adjustments": "Short lookback",
+        "notes": "Advanced tool for early trend detection downward."
+    },
+    {
+        "name": "Median Price Variant (Short-Term)",
+        "formula": "Median=(H+L)/2 with shorter windows",
+        "sell_signal": "Price < Median",
+        "adjustments": "3-period median",
+        "notes": "Shorter baseline, price below median is bearish."
+    },
+    {
+        "name": "High-Low Range Oscillator",
+        "formula": "(H-L)/SMA(H-L,n)",
+        "sell_signal": "Oscillator turns negative",
+        "adjustments": "5-period SMA",
+        "notes": "Short-term range-based momentum turning down."
+    },
+    {
+        "name": "Vortex (Short-Term Variation)",
+        "formula": "VI computed over fewer periods",
+        "sell_signal": "VI- > VI+",
+        "adjustments": "5-period",
+        "notes": "Faster vortex confirms quick downside moves."
+    },
+    {
+        "name": "RMI (Shorter Variation)",
+        "formula": "RMI with shorter RSI base",
+        "sell_signal": "RMI < 50",
+        "adjustments": "3-period momentum",
+        "notes": "Extremely fast momentum-based RSI signal downward."
+    },
+    {
+        "name": "Adaptive Stoch (Faster)",
+        "formula": "Adaptive Stochastic with dynamic n<5",
+        "sell_signal": "%K<%D above 80",
+        "adjustments": "Dynamic period ~3-5",
+        "notes": "Ultra-fast adaptation to overbought conditions."
+    },
+    {
+        "name": "Bollinger %B (Alternate)",
+        "formula": "%B=(Price - Lower)/(Upper - Lower)",
+        "sell_signal": "%B<0.2",
+        "adjustments": "3-period BB",
+        "notes": "Ultra-short BB to detect quick downside move."
+    },
+    {
+        "name": "CSI (Short-Term)",
+        "formula": "Short-term CSI calculation",
+        "sell_signal": "CSI falling",
+        "adjustments": "3-period inputs",
+        "notes": "Immediate sign of asset losing bullishness."
+    },
+    {
+        "name": "Price Action Channel (Tighter)",
+        "formula": "Tighter RSI & MA channels",
+        "sell_signal": "Price crosses below mid-channel",
+        "adjustments": "3-period RSI, SMA",
+        "notes": "Extremely sensitive downside breakout detection."
+    },
+    {
+        "name": "Klinger Oscillator (Faster)",
+        "formula": "KO with shorter EMAs",
+        "sell_signal": "KO < 0",
+        "adjustments": "(5,8) EMAs",
+        "notes": "Immediately detects negative volume flow changes."
+    },
+    {
+        "name": "Short-Term ADX Variant",
+        "formula": "ADX with even shorter smoothing",
+        "sell_signal": "ADX>20 with DI- leading",
+        "adjustments": "5-period DI",
+        "notes": "Catches smallest emerging downtrends."
+    },
+    {
+        "name": "Ichimoku Conversion Line",
+        "formula": "(H9+L9)/2 typically, use (H5+L5)/2",
+        "sell_signal": "Price < Conversion Line",
+        "adjustments": "5-period",
+        "notes": "Faster Ichimoku signal line, quick bearish indication."
+    },
+    {
+        "name": "Envelope Percent Band",
+        "formula": "MA ± (MA*%Band)",
+        "sell_signal": "Price < Upper Envelope",
+        "adjustments": "±1% band, 5-period MA",
+        "notes": "Quick detection of price reverting down from upper band."
+    },
+    {
+        "name": "Range Breakout Indicator",
+        "formula": "Break of recent high/low range",
+        "sell_signal": "Price breaks below recent range",
+        "adjustments": "Use last 5 bars for range",
+        "notes": "Captures micro-breakdowns."
+    },
+    {
+        "name": "Weighted Moving Average (WMA)",
+        "formula": "WMA=Σ(Price_i*Weight_i)/Σ(Weights)",
+        "sell_signal": "Price < WMA",
+        "adjustments": "5-period WMA",
+        "notes": "Heavier weight on recent data catches quick downturns."
+    },
+    {
+        "name": "Moving Average Envelopes",
+        "formula": "MA ± fixed %",
+        "sell_signal": "Price crosses below upper envelope",
+        "adjustments": "10-period SMA with ±2%",
+        "notes": "Identifies short-term price extremes to the downside."
+    },
+    {
+        "name": "Volume Price Trend (VPT)",
+        "formula": "VPT=PrevVPT + Vol*(PriceChange/PrevClose)",
+        "sell_signal": "Price < VWMA",
+        "adjustments": "3-period VWMA",
+        "notes": "Price below volume-weighted trend line."
+    },
+    {
+        "name": "Relative Performance (RP)",
+        "formula": "RP=AssetReturn/BenchmarkReturn",
+        "sell_signal": "RP decreasing",
+        "adjustments": "Shorter intervals",
+        "notes": "Underperforming the benchmark quickly."
+    },
+    {
+        "name": "Fast Stochastic Oscillator",
+        "formula": "%K=((Close-LL)/(HH-LL))*100; %D=SMA(%K)",
+        "sell_signal": "%K<%D above 80",
+        "adjustments": "(5,5) periods",
+        "notes": "Faster signal for overbought conditions and impending drop."
+    },
+    {
+        "name": "Range Indicator",
+        "formula": "Range=High-Low",
+        "sell_signal": "Range narrows then price downtick",
+        "adjustments": "Intraday ranges",
+        "notes": "Narrow range followed by downward breakout."
+    },
+    {
+        "name": "Double EMA (DEMA)",
+        "formula": "DEMA=2*EMA - EMA(EMA)",
+        "sell_signal": "Price < DEMA",
+        "adjustments": "5-period DEMA",
+        "notes": "Less lag than EMA, quick bearish turns."
+    },
+    {
+        "name": "Smoothed RSI (Short)",
+        "formula": "Smoothed RSI=EMA(RSI)",
+        "sell_signal": "Smoothed RSI < 50",
+        "adjustments": "5-period RSI&EMA",
+        "notes": "Smoothed signals show immediate turn negative."
+    },
+    {
+        "name": "MACD Convergence Range (MACR)",
+        "formula": "MACR=|MA_fast - MA_slow|",
+        "sell_signal": "MACR expanding downward",
+        "adjustments": "Faster MAs",
+        "notes": "Widening negative gap indicates strengthening downtrend."
+    },
+    {
+        "name": "Center of Gravity (COG)",
+        "formula": "COG=Weighted sum of price movements",
+        "sell_signal": "COG turning downward",
+        "adjustments": "Shorter calculation periods",
+        "notes": "Predicts reversals quickly to downside."
+    },
+    {
+        "name": "Volatility Indicator (Short-Term)",
+        "formula": "StdDev of price changes",
+        "sell_signal": "Decreasing volatility + price fall",
+        "adjustments": "5-period STD",
+        "notes": "Less volatility and downward price may invite shorting."
+    },
+    {
+        "name": "Trend Intensity Index (TII)",
+        "formula": "TII=(SumUpCloses - SumDownCloses)/TotalRange",
+        "sell_signal": "TII < 0.5",
+        "adjustments": "5-period",
+        "notes": "Below 0.5 indicates bearish trend consistency."
+    },
+    {
+        "name": "Adaptive Stochastic Oscillator (Faster)",
+        "formula": "Adaptive Stoch with minimal periods",
+        "sell_signal": "%K<%D above 80",
+        "adjustments": "Very fast recalculations",
+        "notes": "Catches even the smallest overbought bounces downward."
+    },
+    {
+        "name": "Bollinger Band %B (Variant)",
+        "formula": "%B=(Price - LowerBand)/(UpperBand-LowerBand)",
+        "sell_signal": "%B<0.2",
+        "adjustments": "3-period Bollinger",
+        "notes": "For scalpers looking for micro-downturn."
+    },
+    {
+        "name": "Commodity Selection Index (Micro)",
+        "formula": "Short-term CSI calc",
+        "sell_signal": "CSI decreasing rapidly",
+        "adjustments": "Intraday",
+        "notes": "Highlights immediate losing trade opportunities."
+    },
+    {
+        "name": "Price Action Channels (Micro)",
+        "formula": "RSI+MA with very short periods",
+        "sell_signal": "Price crosses below mid-channel",
+        "adjustments": "Shorten moving average to 3",
+        "notes": "Micro-breakdown opportunities."
+    },
+    {
+        "name": "Klinger Oscillator (Faster Variant)",
+        "formula": "KO=EMA(VolFlow)",
+        "sell_signal": "KO<0",
+        "adjustments": "(5,8) EMA",
+        "notes": "Faster volume/trend reading to the downside."
+    },
+    {
+        "name": "Short-Term ADX (Micro)",
+        "formula": "ADX with minimal smoothing",
+        "sell_signal": "ADX>20 with DI- leading",
+        "adjustments": "5-period DI",
+        "notes": "Quickly identifies micro-downtrends."
+    },
+    {
+        "name": "Ichimoku Conversion (Faster)",
+        "formula": "(H5+L5)/2",
+        "sell_signal": "Price<Conversion Line",
+        "adjustments": "5-period",
+        "notes": "Ultra-fast Ichimoku trigger line for bearish signals."
+    },
+    {
+        "name": "Envelope Percent Band (Tighter)",
+        "formula": "MA ±1%",
+        "sell_signal": "Price < Upper Envelope",
+        "adjustments": "5-period MA",
+        "notes": "Tiny envelope break to the downside."
+    },
+    {
+        "name": "Range Breakout (Micro)",
+        "formula": "Break last 3-bar high",
+        "sell_signal": "Price<Low(3)",
+        "adjustments": "3-bar range",
+        "notes": "Catch micro-downside breaks."
+    },
+    {
+        "name": "WMA (Shorter)",
+        "formula": "3-period WMA",
+        "sell_signal": "Price<WMA",
+        "adjustments": "3-period WMA",
+        "notes": "Heavy weight on recent price drop."
+    },
+    {
+        "name": "Moving Average Envelopes (Narrow)",
+        "formula": "MA ±1%",
+        "sell_signal": "Price crosses below upper envelope",
+        "adjustments": "5-period SMA",
+        "notes": "Tight envelope band signals quick downside break."
+    },
+    {
+        "name": "Coppock Curve (Short-Term)",
+        "formula": "Coppock with shorter ROC",
+        "sell_signal": "Curve turns negative",
+        "adjustments": "(3,5) ROC",
+        "notes": "Detects micro downturns."
+    },
+    {
+        "name": "Ulcer Index (Short)",
+        "formula": "UI over fewer bars",
+        "sell_signal": "UI decreases + price downtick",
+        "adjustments": "5-period",
+        "notes": "Short-term risk reduction signals sell."
+    },
+    {
+        "name": "Heikin-Ashi (Faster)",
+        "formula": "Shorter HA smoothing",
+        "sell_signal": "Two consecutive bearish HA bars",
+        "adjustments": "3-period",
+        "notes": "Faster smoothing for scalping downtrends."
+    },
+    {
+        "name": "Ichimoku Baseline (Faster)",
+        "formula": "(H5+L5)/2",
+        "sell_signal": "Price<Baseline",
+        "adjustments": "5-period baseline",
+        "notes": "Cross below a very short baseline."
+    },
+    {
+        "name": "Choppiness Index (Tighter)",
+        "formula": "CI with shorter n",
+        "sell_signal": "CI decreases + price down",
+        "adjustments": "3-period ATR",
+        "notes": "Short-term CHOP drop signals trend formation downward."
+    },
+    {
+        "name": "Schaff Trend Cycle (Faster)",
+        "formula": "STC with shorter MACD/Stoch",
+        "sell_signal": "STC<25",
+        "adjustments": "(5,10) MACD",
+        "notes": "Rapid trend-cycle detection to downside."
+    },
+    {
+        "name": "TSI (Short Variant)",
+        "formula": "TSI with shorter EMAs",
+        "sell_signal": "TSI<0",
+        "adjustments": "(3,3) EMAs",
+        "notes": "Instantaneous momentum reading negative."
+    },
+    {
+        "name": "SROC (Another Variant)",
+        "formula": "SROC=EMA(ROC) with different smoothing",
+        "sell_signal": "SROC<0",
+        "adjustments": "2-period EMA",
+        "notes": "Even faster ROC smoothing showing downturn."
+    },
+    {
+        "name": "ATR Bands (Even Tighter)",
+        "formula": "MA ±1*ATR",
+        "sell_signal": "Price crosses below upper band",
+        "adjustments": "3-period ATR",
+        "notes": "More aggressive ATR setting catches tiny breakdowns."
+    },
+    {
+        "name": "Price Channel (Micro)",
+        "formula": "Max/Min of last 3 bars",
+        "sell_signal": "Break below lower channel",
+        "adjustments": "3-period",
+        "notes": "Scalp-level downside breakout."
+    },
+    {
+        "name": "Ichimoku Lagging (Faster)",
+        "formula": "LaggingSpan=Price shifted fewer bars",
+        "sell_signal": "Lagging Span<Price",
+        "adjustments": "Shift 3 bars",
+        "notes": "Minimal lag for quick bearish confirmation."
+    },
+    {
+        "name": "Elder Impulse (Micro)",
+        "formula": "MACD and EMA minimal periods",
+        "sell_signal": "Red bar",
+        "adjustments": "(2,4) EMA",
+        "notes": "Immediate impulse detection downward."
+    },
+    {
+        "name": "Fisher Stochastic (Micro)",
+        "formula": "Fisher on 3-period Stoch",
+        "sell_signal": "Fisher<0",
+        "adjustments": "3-period %K",
+        "notes": "Lightning-fast overbought/oversold signals to downside."
+    },
+    {
+        "name": "Hilbert Transform (Micro)",
+        "formula": "Hilbert over very few bars",
+        "sell_signal": "Trend down",
+        "adjustments": "2-3 period window",
+        "notes": "High-frequency guess at downward trend."
+    },
+    {
+        "name": "Adaptive AMA (Faster)",
+        "formula": "AMA with even faster SC",
+        "sell_signal": "Price<AMA",
+        "adjustments": "2-period ER",
+        "notes": "Adapts almost instantly to downward move."
+    },
+    {
+        "name": "Chaikin Volatility (Micro)",
+        "formula": "CV with 2-period EMA",
+        "sell_signal": "CV down then price down",
+        "adjustments": "2-period EMA",
+        "notes": "Immediate volatility contraction + price fall."
+    },
+    {
+        "name": "Ichimoku Conversion (Micro)",
+        "formula": "(H3+L3)/2",
+        "sell_signal": "Price<Line",
+        "adjustments": "3-period",
+        "notes": "Ultra-fast Ichimoku line cross down."
+    },
+    {
+        "name": "Envelope Percent Band (Micro)",
+        "formula": "MA ±0.5%",
+        "sell_signal": "Price<Upper Band",
+        "adjustments": "3-period MA",
+        "notes": "Tiny envelopes for scalping breakdowns."
+    },
+    {
+        "name": "Range Breakout (Ultra-Short)",
+        "formula": "Break last 2-bar high",
+        "sell_signal": "Price<Low(2)",
+        "adjustments": "2-bar range",
+        "notes": "Captures immediate micro-breakdown."
+    },
+    {
+        "name": "WMA (Micro)",
+        "formula": "2-period WMA",
+        "sell_signal": "Price<WMA",
+        "adjustments": "2-period",
+        "notes": "Near-instant reaction to new downward price."
+    },
+    {
+        "name": "Moving Average Envelopes (Micro)",
+        "formula": "MA ±1%",
+        "sell_signal": "Price crosses below upper envelope",
+        "adjustments": "3-period MA",
+        "notes": "Ultra-narrow envelopes detect smallest downswing."
+    },
+    {
+        "name": "Coppock Curve (Micro)",
+        "formula": "Coppock with minimal ROC periods",
+        "sell_signal": "Curve turns negative",
+        "adjustments": "(2,3) ROC",
+        "notes": "Almost no lag on downturn."
+    },
+    {
+        "name": "Ulcer Index (Micro)",
+        "formula": "UI over 3 bars",
+        "sell_signal": "UI decreases + price downtick",
+        "adjustments": "3-period",
+        "notes": "Immediate risk reduction sign (bearish)."
+    },
+    {
+        "name": "Heikin-Ashi (Micro)",
+        "formula": "HA from last 2 bars",
+        "sell_signal": "1-2 bearish HA bars",
+        "adjustments": "2-period smoothing",
+        "notes": "Minimal smoothing shows immediate downturn."
+    },
+    {
+        "name": "Ichimoku Baseline (Micro)",
+        "formula": "(H3+L3)/2",
+        "sell_signal": "Price<Baseline",
+        "adjustments": "3-period baseline",
+        "notes": "Fastest baseline cross downward."
+    },
+    {
+        "name": "Choppiness Index (Ultra-Short)",
+        "formula": "CI with 2-period ATR",
+        "sell_signal": "CI decreases + price down",
+        "adjustments": "2-period ATR",
+        "notes": "Identifies a trend almost instantly downward."
+    },
+    {
+        "name": "Schaff Trend Cycle (Micro)",
+        "formula": "STC minimal MACD/Stoch",
+        "sell_signal": "STC<25",
+        "adjustments": "(2,3) ROC",
+        "notes": "Rapid trend-cycle detection to downside."
+    }
+]

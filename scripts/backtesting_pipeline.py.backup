@@ -1,0 +1,126 @@
+import pandas as pd
+import numpy as np
+from sqlalchemy import create_engine, text
+from multiprocessing import Pool, cpu_count
+from functools import partial
+import pandas_ta as ta
+
+# Database connection
+engine = create_engine("postgresql://postgres:jEtsrus33J@localhost:5432/bigdanbinance")
+
+# Fetch historical data
+def fetch_historical_data(coin_symbol):
+    query = f"""
+    SELECT open_time, open, high, low, close, volume
+    FROM candlesticks
+    WHERE symbol = '{coin_symbol}'
+    ORDER BY open_time;
+    """
+    return pd.read_sql(query, engine)
+
+# Compute indicators
+def compute_indicator(data, indicator_config):
+    try:
+        name = indicator_config['name']
+        if "RSI" in name:
+            lookback = int(indicator_config['adjustments'].split('period')[0].strip().split()[-1]) \
+                if 'period' in indicator_config['adjustments'] else 14
+            return data.ta.rsi(length=lookback)
+        elif "Bollinger" in name:
+            return data.ta.bbands(length=20)
+        # Add more indicators as needed
+        return None
+    except Exception as e:
+        print(f"Error computing {name}: {str(e)}")
+        return None
+
+# Evaluate signals
+def evaluate_signal(data, indicator_values, buy_condition):
+    try:
+        if "< " in buy_condition:
+            threshold = float(buy_condition.split("< ")[1])
+            return indicator_values < threshold
+        elif "> " in buy_condition:
+            threshold = float(buy_condition.split("> ")[1])
+            return indicator_values > threshold
+        # Add more condition types as needed
+        return pd.Series(False, index=data.index)
+    except Exception as e:
+        print(f"Error evaluating signal: {str(e)}")
+        return pd.Series(False, index=data.index)
+
+# Backtest single indicator
+def backtest_indicator(args):
+    data, indicator_config = args
+    try:
+        indicator_values = compute_indicator(data, indicator_config)
+        if indicator_values is None:
+            return None
+            
+        signals = evaluate_signal(data, indicator_values, indicator_config['buy_signal'])
+        
+        # Simulate trades
+        data['profit'] = np.where(signals, data['close'].shift(-1) - data['close'], 0)
+        buy_accuracy = data[signals]['profit'].gt(0).mean() or 0
+        strategy_score = buy_accuracy  # Simplified scoring for now
+        
+        return {
+            'indicator': indicator_config['name'],
+            'strategy_score': float(strategy_score),
+            'buy_accuracy': float(buy_accuracy)
+        }
+    except Exception as e:
+        print(f"Error backtesting {indicator_config['name']}: {str(e)}")
+        return None
+
+# Save backtesting results
+def save_backtest_results(results):
+    if not results:
+        return
+        
+    query = text("""
+    INSERT INTO backtest_results (coin_symbol, indicator_name, strategy_score, buy_accuracy)
+    VALUES (:coin_symbol, :indicator_name, :strategy_score, :buy_accuracy)
+    ON CONFLICT (coin_symbol, indicator_name) DO UPDATE
+    SET strategy_score = :strategy_score, buy_accuracy = :buy_accuracy;
+    """)
+    
+    with engine.begin() as conn:
+        for result in results:
+            if result:
+                conn.execute(query, result)
+
+def run_backtesting():
+    # Load indicator configurations
+    import json
+    with open('../indicators/short_term.json', 'r') as f:
+        indicators = json.load(f)['short_term_buy_indicators']
+    
+    # Process BTCUSDT and ETHUSDT
+    for coin in ['BTCUSDT', 'ETHUSDT']:
+        print(f"Processing {coin}...")
+        data = fetch_historical_data(coin)
+        if data.empty:
+            print(f"No data for {coin}. Skipping.")
+            continue
+            
+        # Prepare arguments for parallel processing
+        args = [(data, indicator) for indicator in indicators]
+        
+        # Run backtests in parallel using 2 cores
+        with Pool(2) as pool:
+            results = pool.map(backtest_indicator, args)
+        
+        # Filter out None results and add coin symbol
+        valid_results = []
+        for result in results:
+            if result:
+                result['coin_symbol'] = coin
+                valid_results.append(result)
+        
+        # Save results
+        save_backtest_results(valid_results)
+
+if __name__ == "__main__":
+    run_backtesting()
+
