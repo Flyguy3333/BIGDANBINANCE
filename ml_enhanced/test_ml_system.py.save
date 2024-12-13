@@ -1,0 +1,75 @@
+import pandas as pd
+from enhanced_ml_system import EnhancedMLSystem
+import psycopg2
+from datetime import datetime, timedelta
+
+def get_db_connection():
+    """Create database connection"""
+    return psycopg2.connect(
+        dbname="bigdanbinance",
+        user="postgres",
+        password="jEtsrus33J",
+        host="localhost",
+        port="5432"
+    )
+
+def test_ml_system():
+    try:
+        # Create database connection
+        conn = get_db_connection()
+        print("Database connection successful")
+
+        # Load recent indicator data
+        query = """
+        SELECT * FROM indicator_data 
+        WHERE timestamp >= NOW() - INTERVAL '30 days'
+        """
+        data = pd.read_sql(query, conn)
+        print(f"Loaded {len(data)} rows of indicator data")
+
+        # Initialize the enhanced ML system
+        ml_system = EnhancedMLSystem(save_path='models/')
+        
+        # Prepare the data
+        X, y = ml_system.prepare_data(data, target_col='signal')
+        print("Data preparation complete")
+        
+        # Train the models
+        print("Training models...")
+        performance = ml_system.train_models(X, y, cross_validate=True)
+        
+        # Print performance metrics
+        print("\nModel Performance:")
+        for model_name, metrics in performance.items():
+            print(f"\n{model_name.upper()} Metrics:")
+            for metric, value in metrics.items():
+                print(f"{metric}: {value:.4f}")
+        
+        # Generate predictions for recent data
+        recent_query = """
+        SELECT * FROM indicator_data 
+        WHERE timestamp >= NOW() - INTERVAL '1 day'
+        """
+        new_data = pd.read_sql(recent_query, conn)
+        print(f"\nGenerating predictions for {len(new_data)} recent records")
+        
+        predictions, probabilities = ml_system.predict(new_data)
+        
+        # Get feature importance
+        importance = ml_system.get_feature_importance()
+        
+        print("\nTop 10 Features by Importance:")
+        for model_name, feat_imp in importance.items():
+            print(f"\n{model_name.upper()}:")
+            print(feat_imp.head(10))
+
+        conn.close()
+        print("\nTest completed successfully")
+
+    except Exception as e:
+        print(f"Error during testing: {e}")
+        if 'conn' in locals():
+            conn.close()
+
+if __name__ == "__main__":
+    test_ml_system()
